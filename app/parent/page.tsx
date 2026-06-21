@@ -65,14 +65,19 @@ export default function ParentPage() {
   return (
     <main className="flex-1 flex flex-col bg-gray-50 px-4 pt-6 pb-24">
       <div className="max-w-2xl w-full mx-auto flex flex-col gap-5">
-        <div>
+        <motion.div initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }}>
           <h1 className="text-2xl font-black text-gray-800">👀 Suivi de {gameState.profile.name}</h1>
           <p className="text-gray-400 font-semibold text-sm">
             Pour t&apos;aider à encourager, pas pour contrôler.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="bg-white rounded-3xl p-5 card-shadow grid grid-cols-2 gap-4">
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05 }}
+          className="bg-white rounded-3xl p-5 card-shadow grid grid-cols-2 gap-4"
+        >
           <div>
             <div className="text-xs text-gray-400 font-bold uppercase">Rang</div>
             <div className="text-xl font-black text-gray-800">
@@ -101,9 +106,14 @@ export default function ParentPage() {
             <div className="text-xs text-gray-400 font-bold uppercase">Gemmes gagnées</div>
             <div className="text-xl font-black text-gray-800">💎 {gameState.gems}</div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="bg-white rounded-3xl p-5 card-shadow">
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="bg-white rounded-3xl p-5 card-shadow"
+        >
           <h2 className="font-black text-gray-700 mb-3">Activité des 7 derniers jours</h2>
           <div className="flex items-end justify-between gap-2 h-24">
             {days.map((d) => {
@@ -124,11 +134,16 @@ export default function ParentPage() {
               );
             })}
           </div>
-        </div>
+        </motion.div>
 
-        <div className="bg-white rounded-3xl p-5 card-shadow flex flex-col gap-4">
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="bg-white rounded-3xl p-5 card-shadow flex flex-col gap-4"
+        >
           <h2 className="font-black text-gray-700">Par matière</h2>
-          {SUBJECTS.map((subject) => {
+          {SUBJECTS.map((subject, i) => {
             const progress = gameState.subjects[subject.id];
             const totalAnswered = Object.values(progress?.chapterProgress ?? {}).reduce(
               (a, c) => a + c.totalAnswered,
@@ -144,7 +159,13 @@ export default function ParentPage() {
             ).length;
 
             return (
-              <div key={subject.id} className="flex items-center gap-4">
+              <motion.div
+                key={subject.id}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 + i * 0.04 }}
+                className="flex items-center gap-4"
+              >
                 <AccuracyRing percent={accuracy} color="#6366f1" />
                 <div className="flex-1">
                   <div className="font-bold text-gray-700">
@@ -154,10 +175,10 @@ export default function ParentPage() {
                     {masteredCount}/{subject.chapters.length} chapitres maîtrisés · {totalAnswered} questions
                   </div>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
         <p className="text-xs text-gray-400 text-center">
           Prochain rang : {RANKS.find((r) => r.minTotalXp > gameState.totalXp)?.title ?? "rang maximum atteint"}

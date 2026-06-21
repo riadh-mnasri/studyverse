@@ -6,6 +6,7 @@ import { COSMETICS } from "@/lib/avatars";
 import { sounds } from "@/lib/sounds";
 import AvatarPreview from "@/components/AvatarPreview";
 import NavBar from "@/components/NavBar";
+import FloatingBackground from "@/components/FloatingBackground";
 import type { CosmeticItem } from "@/lib/types";
 
 const SLOT_LABELS: Record<CosmeticItem["slot"], string> = {
@@ -14,6 +15,8 @@ const SLOT_LABELS: Record<CosmeticItem["slot"], string> = {
   outfit: "Tenue",
   accessory: "Accessoire",
 };
+
+const FLOATING = ["🧢", "👑", "🦸", "🛡️", "⚔️", "🪄", "🤓", "✨"];
 
 export default function AvatarPage() {
   const [gameState] = useGameState();
@@ -31,19 +34,38 @@ export default function AvatarPage() {
   const slots: CosmeticItem["slot"][] = ["base", "hat", "outfit", "accessory"];
 
   return (
-    <main className="flex-1 flex flex-col bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 px-4 pt-6 pb-24">
-      <div className="max-w-2xl w-full mx-auto flex flex-col gap-5">
-        <h1 className="text-3xl font-black text-white text-center drop-shadow">🧑 Mon avatar</h1>
+    <main className="flex-1 flex flex-col relative overflow-hidden bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 px-4 pt-6 pb-24">
+      <FloatingBackground emojis={FLOATING} />
 
-        <div className="bg-white rounded-3xl p-6 flex flex-col items-center gap-3 card-shadow">
+      <div className="relative z-10 max-w-2xl w-full mx-auto flex flex-col gap-5">
+        <motion.h1
+          initial={{ opacity: 0, y: -15 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-3xl font-black text-white text-center drop-shadow"
+        >
+          🧑 Mon avatar
+        </motion.h1>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ type: "spring", bounce: 0.4 }}
+          className="bg-white rounded-3xl p-6 flex flex-col items-center gap-3 card-shadow"
+        >
           <AvatarPreview loadout={gameState.equippedAvatar} />
           <div className="bg-emerald-100 text-emerald-700 font-black px-4 py-1.5 rounded-full text-sm">
             💎 {gameState.gems} gemmes
           </div>
-        </div>
+        </motion.div>
 
-        {slots.map((slot) => (
-          <div key={slot} className="bg-white/95 rounded-3xl p-4 card-shadow">
+        {slots.map((slot, slotIndex) => (
+          <motion.div
+            key={slot}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 + slotIndex * 0.05 }}
+            className="bg-white/95 rounded-3xl p-4 card-shadow"
+          >
             <h2 className="font-black text-gray-700 mb-3">{SLOT_LABELS[slot]}</h2>
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
               {COSMETICS.filter((c) => c.slot === slot).map((item) => {
@@ -75,7 +97,7 @@ export default function AvatarPage() {
                 );
               })}
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
       <NavBar />

@@ -1,0 +1,123 @@
+import type { Subject } from "../types";
+
+export const codeIntro: Subject = {
+  id: "code-intro",
+  name: "Code",
+  icon: "💻",
+  colorFrom: "from-emerald-500",
+  colorTo: "to-teal-600",
+  chapters: [
+    {
+      id: "logique-sequentielle",
+      title: "Logique et boucles",
+      description: "Scratch et premiers pas en Python",
+      icon: "🔁",
+      exercises: [
+        {
+          id: "code-log-q01",
+          type: "qcm",
+          prompt: "En Scratch, quel bloc permet de répéter une action plusieurs fois ?",
+          options: ["si... alors", "répéter", "attendre", "quand drapeau cliqué"],
+          correctIndex: 1,
+        },
+        {
+          id: "code-log-q02",
+          type: "qcm",
+          prompt: "Que fait ce script Scratch : « répéter 4 fois [avancer de 10] » ?",
+          options: [
+            "Le personnage avance une seule fois de 10 pas",
+            "Le personnage avance au total de 40 pas",
+            "Le personnage tourne 4 fois",
+            "Le personnage attend 4 secondes",
+          ],
+          correctIndex: 1,
+        },
+        {
+          id: "code-log-q03",
+          type: "true-false",
+          prompt: "Une boucle permet d'exécuter plusieurs fois les mêmes instructions.",
+          correct: true,
+        },
+        {
+          id: "code-log-q04",
+          type: "qcm",
+          prompt: "Quel bloc Scratch correspond à une condition ?",
+          options: ["répéter", "si... alors... sinon", "avancer de", "jouer le son"],
+          correctIndex: 1,
+        },
+        {
+          id: "code-log-q05",
+          type: "fill-blank",
+          prompt: "En Scratch, une ___ infinie répète des instructions sans jamais s'arrêter.",
+          acceptedAnswers: ["boucle"],
+        },
+        {
+          id: "code-log-q06",
+          type: "qcm",
+          prompt: 'Que va afficher ce programme Python ?\nfor i in range(3):\n    print("Bonjour")',
+          options: ["Bonjour une fois", "Bonjour trois fois", "Bonjour 0 fois", "Une erreur"],
+          correctIndex: 1,
+        },
+        {
+          id: "code-log-q07",
+          type: "qcm",
+          prompt: "Que vaut x après ce code ?\nx = 5\nx = x + 3",
+          options: ["3", "5", "8", "15"],
+          correctIndex: 2,
+        },
+        {
+          id: "code-log-q08",
+          type: "true-false",
+          prompt: "En Python, print(\"Bonjour\") affiche le mot Bonjour à l'écran.",
+          correct: true,
+        },
+        {
+          id: "code-log-q09",
+          type: "qcm",
+          prompt: "Quel symbole utilise-t-on en Python pour vérifier une égalité dans une condition ?",
+          options: ["=", "==", "!=", "<>"],
+          correctIndex: 1,
+        },
+        {
+          id: "code-log-q10",
+          type: "fill-blank",
+          prompt: "Pour stocker une valeur dans une variable en Python, on utilise le symbole ___.",
+          acceptedAnswers: ["="],
+        },
+        {
+          id: "code-log-q11",
+          type: "qcm",
+          prompt: 'Que fait ce code Python ?\nif 7 > 5:\n    print("Oui")\nelse:\n    print("Non")',
+          options: ["Affiche Oui", "Affiche Non", "N'affiche rien", "Provoque une erreur"],
+          correctIndex: 0,
+        },
+        {
+          id: "code-log-q12",
+          type: "qcm",
+          prompt: "Combien de fois cette boucle s'exécute-t-elle ?\nfor i in range(5):\n    print(i)",
+          options: ["4", "5", "6", "0"],
+          correctIndex: 1,
+        },
+        {
+          id: "code-log-q13",
+          type: "true-false",
+          prompt: "En Scratch, le bloc « quand drapeau vert cliqué » permet de démarrer un script.",
+          correct: true,
+        },
+        {
+          id: "code-log-q14",
+          type: "fill-blank",
+          prompt: "En Python, dans une liste comme [1, 2, 3], le premier élément a pour indice ___.",
+          acceptedAnswers: ["0"],
+        },
+        {
+          id: "code-log-q15",
+          type: "qcm",
+          prompt: 'Que va afficher ce code ?\nfor i in range(2):\n    for j in range(2):\n        print("*")',
+          options: ["* une fois", "* deux fois", "* trois fois", "* quatre fois"],
+          correctIndex: 3,
+        },
+      ],
+    },
+  ],
+};

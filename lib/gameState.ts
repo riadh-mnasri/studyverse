@@ -12,7 +12,7 @@ const MINUTES_PER_QUIZ_ESTIMATE = 5;
 export function createDefaultGameState(): GameState {
   return {
     version: 1,
-    profile: { name: "", createdISO: localDateISO() },
+    profile: { name: "Seji", createdISO: localDateISO() },
     totalXp: 0,
     gems: 0,
     perfectQuizCount: 0,

@@ -66,7 +66,7 @@ export default function ParentPage() {
     <main className="flex-1 flex flex-col bg-gray-50 px-4 pt-6 pb-24">
       <div className="max-w-2xl w-full mx-auto flex flex-col gap-5">
         <div>
-          <h1 className="text-2xl font-black text-gray-800">👀 Suivi de la progression</h1>
+          <h1 className="text-2xl font-black text-gray-800">👀 Suivi de {gameState.profile.name}</h1>
           <p className="text-gray-400 font-semibold text-sm">
             Pour t&apos;aider à encourager, pas pour contrôler.
           </p>

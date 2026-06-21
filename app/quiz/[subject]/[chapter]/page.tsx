@@ -195,6 +195,7 @@ function QuizSession({
   if (phase === "result" && result) {
     return (
       <ResultScreen
+        name={gameState.profile.name}
         correctCount={correctCount}
         totalCount={totalQuestions}
         xpEarned={result.sessionXp}

@@ -5,6 +5,7 @@ import Confetti from "@/components/Confetti";
 import type { Badge } from "@/lib/types";
 
 interface Props {
+  name: string;
   correctCount: number;
   totalCount: number;
   xpEarned: number;
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export default function ResultScreen({
+  name,
   correctCount,
   totalCount,
   xpEarned,
@@ -31,7 +33,7 @@ export default function ResultScreen({
     "Continue, tu peux le faire ! 💪",
     "Pas mal du tout ! 😊",
     "Super travail ! 🌟",
-    "PARFAIT ! 🏆🎉",
+    `PARFAIT ${name} ! 🏆🎉`,
   ];
 
   return (

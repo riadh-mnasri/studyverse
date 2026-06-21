@@ -24,8 +24,8 @@ export default function Home() {
     <main className="flex-1 flex flex-col bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 px-4 pt-6 pb-24">
       <div className="max-w-2xl w-full mx-auto flex flex-col gap-5">
         <div className="text-center text-white">
-          <h1 className="text-3xl font-black drop-shadow">🚀 Studyverse</h1>
-          <p className="text-white/80 font-semibold text-sm">Tes missions du jour</p>
+          <h1 className="text-3xl font-black drop-shadow">🚀 Salut {gameState.profile.name} !</h1>
+          <p className="text-white/80 font-semibold text-sm">Tes missions du jour t&apos;attendent</p>
         </div>
 
         <div className="flex gap-3">
@@ -57,7 +57,9 @@ export default function Home() {
         {allCompleted && (
           <div className="bg-white/95 rounded-3xl p-8 text-center shadow-xl">
             <div className="text-5xl mb-2">🎉</div>
-            <h2 className="text-2xl font-black text-gray-800 mb-1">Bravo ! Mission du jour accomplie.</h2>
+            <h2 className="text-2xl font-black text-gray-800 mb-1">
+              Bravo {gameState.profile.name} ! Mission du jour accomplie.
+            </h2>
             <p className="text-gray-500 font-semibold mb-4">À demain pour de nouveaux défis !</p>
             {todayLog && (
               <div className="grid grid-cols-2 gap-3 mb-4">

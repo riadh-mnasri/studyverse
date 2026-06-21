@@ -42,14 +42,17 @@ export default function MatieresPage() {
                   const cp = progress?.chapterProgress[chapter.id];
                   return (
                     <Link key={chapter.id} href={`/quiz/${subject.id}/${chapter.id}`}>
-                      <div className="flex items-center gap-3 p-3 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-colors">
+                      <motion.div
+                        whileTap={{ scale: 0.97 }}
+                        className="flex items-center gap-3 p-3 rounded-2xl bg-gray-50 active:bg-gray-100 hover:bg-gray-100 transition-colors"
+                      >
                         <span className="text-xl">{cp?.mastered ? "⭐" : chapter.icon}</span>
                         <div className="flex-1">
                           <div className="font-bold text-gray-700 text-sm">{chapter.title}</div>
                           <div className="text-xs text-gray-400">{chapter.description}</div>
                         </div>
                         {cp && <span className="text-xs font-black text-gray-400">{cp.bestScore}%</span>}
-                      </div>
+                      </motion.div>
                     </Link>
                   );
                 })}

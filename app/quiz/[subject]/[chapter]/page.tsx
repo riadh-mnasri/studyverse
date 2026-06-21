@@ -239,6 +239,7 @@ function QuizSession({
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
+              aria-label="Quitter le quiz"
               className="w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center font-black text-lg hover:bg-white/20"
             >
               ✕

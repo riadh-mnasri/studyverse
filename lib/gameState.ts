@@ -1,9 +1,9 @@
-import { SUBJECTS } from "./content";
+import { CORE_DAILY_SUBJECT_IDS, SUBJECTS } from "./content";
 import { checkNewlyUnlockedBadges } from "./badges";
 import { GEMS_PER_BADGE_UNLOCK, GEMS_PER_COMPLETED_QUIZ, GEMS_PER_PERFECT_QUIZ } from "./avatars";
-import { createDefaultStreak, localDateISO, registerActiveDay } from "./streak";
+import { createDefaultStreak, daysBetween, localDateISO, registerActiveDay } from "./streak";
 import { PERFECT_QUIZ_BONUS_XP } from "./xp";
-import type { ChapterProgress, DailyQuestEntry, DayLog, GameState, SubjectProgress } from "./types";
+import type { ChapterProgress, DailyQuestEntry, DayLog, GameState, Subject, SubjectProgress } from "./types";
 
 const MASTERY_THRESHOLD = 90; // percent — not 100, to avoid an anxiety-inducing perfection bar
 const HISTORY_DAYS_KEPT = 90;
@@ -61,17 +61,31 @@ function pickChapterForSubject(state: GameState, subjectId: string): string {
   return sorted[0].id;
 }
 
+/**
+ * Maths and français are daily anchors (steady habit). The other subjects rotate one-per-day
+ * so the daily loop stays short (~3 missions, ~15 min) even as the subject catalogue grows —
+ * each rotating subject still gets visited roughly once a week.
+ */
+function pickTodaySubjects(today: string): Subject[] {
+  const playable = SUBJECTS.filter((s) => s.chapters.length > 0);
+  const core = playable.filter((s) => CORE_DAILY_SUBJECT_IDS.includes(s.id));
+  const rotating = playable.filter((s) => !CORE_DAILY_SUBJECT_IDS.includes(s.id));
+  if (rotating.length === 0) return core;
+
+  const dayIndex = daysBetween("1970-01-01", today);
+  const todayRotating = rotating[((dayIndex % rotating.length) + rotating.length) % rotating.length];
+  return [...core, todayRotating];
+}
+
 /** Regenerates today's quests if the stored date doesn't match today. Idempotent otherwise. */
 export function ensureTodayQuests(state: GameState): GameState {
   const today = localDateISO();
   if (state.todayDateISO === today) return state;
 
-  const todayQuests: DailyQuestEntry[] = SUBJECTS.filter((s) => s.chapters.length > 0).map(
-    (subject) => ({
-      subjectId: subject.id,
-      chapterId: pickChapterForSubject(state, subject.id),
-    }),
-  );
+  const todayQuests: DailyQuestEntry[] = pickTodaySubjects(today).map((subject) => ({
+    subjectId: subject.id,
+    chapterId: pickChapterForSubject(state, subject.id),
+  }));
 
   return { ...state, todayDateISO: today, todayQuests };
 }

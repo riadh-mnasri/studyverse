@@ -1,5 +1,6 @@
 "use client";
 import { useEffect } from "react";
+import Link from "next/link";
 import { useGameState, updateGameState } from "@/lib/storage";
 import { ensureTodayQuests } from "@/lib/gameState";
 import { getChapter, getSubject } from "@/lib/content";
@@ -73,9 +74,9 @@ export default function Home() {
                 </div>
               </div>
             )}
-            <a href="/matieres" className="text-indigo-600 font-bold text-sm underline">
+            <Link href="/matieres" className="text-indigo-600 font-bold text-sm underline">
               Réviser un chapitre en plus (optionnel)
-            </a>
+            </Link>
           </div>
         )}
       </div>

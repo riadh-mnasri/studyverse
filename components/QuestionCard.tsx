@@ -204,12 +204,12 @@ function FillBlankAnswer({
         disabled={submitted}
         placeholder="Ta réponse..."
         autoFocus
-        className={`w-full p-4 rounded-2xl border-2 text-lg font-bold text-center outline-none ${
+        className={`w-full p-4 rounded-2xl border-2 text-lg font-bold text-center outline-none placeholder-gray-400 [color-scheme:light] ${
           submitted
             ? isCorrect
               ? "border-green-500 bg-green-50 text-green-700 animate-pulse-green"
               : "border-red-500 bg-red-50 text-red-700 animate-shake"
-            : "border-gray-300 focus:border-indigo-500"
+            : "border-gray-300 bg-white text-gray-900 focus:border-indigo-500"
         }`}
       />
       {submitted && !isCorrect && (

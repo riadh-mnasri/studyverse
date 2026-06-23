@@ -65,3 +65,8 @@ export function updateGameState(updater: (state: GameState) => GameState) {
   const current = gameStateStore.getSnapshot();
   gameStateStore.set(updater(current));
 }
+
+/** Overwrites the stored state wholesale, e.g. when restoring from an exported backup file. */
+export function setGameState(state: GameState) {
+  gameStateStore.set(state);
+}

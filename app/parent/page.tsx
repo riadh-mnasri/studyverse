@@ -1,11 +1,101 @@
 "use client";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { useGameState } from "@/lib/storage";
+import { useGameState, setGameState } from "@/lib/storage";
 import { SUBJECTS } from "@/lib/content";
 import { RANKS, rankForTotalXp } from "@/lib/xp";
 import { BADGES } from "@/lib/badges";
 import { localDateISO } from "@/lib/streak";
 import NavBar from "@/components/NavBar";
+import type { GameState } from "@/lib/types";
+
+function isGameState(value: unknown): value is GameState {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "version" in value &&
+    "profile" in value &&
+    "subjects" in value
+  );
+}
+
+function BackupSection({ gameState }: { gameState: GameState }) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [message, setMessage] = useState<string | null>(null);
+
+  function handleExport() {
+    const blob = new Blob([JSON.stringify(gameState, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `studyverse-sauvegarde-${gameState.profile.name}-${localDateISO()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function handleImportFile(file: File) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(reader.result as string);
+        if (!isGameState(parsed)) throw new Error("invalid");
+        if (
+          !window.confirm(
+            "Restaurer cette sauvegarde va remplacer la progression actuelle sur cet appareil. Continuer ?",
+          )
+        ) {
+          return;
+        }
+        setGameState(parsed);
+        setMessage("✅ Sauvegarde restaurée !");
+      } catch {
+        setMessage("❌ Ce fichier n'est pas une sauvegarde Studyverse valide.");
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.12 }}
+      className="bg-white rounded-3xl p-5 card-shadow flex flex-col gap-3"
+    >
+      <h2 className="font-black text-gray-700">🔄 Sauvegarde &amp; transfert</h2>
+      <p className="text-xs text-gray-400 font-semibold">
+        La progression est stockée sur cet appareil uniquement. Pour la retrouver sur un autre
+        appareil ou navigateur, exporte un fichier de sauvegarde ici, puis importe-le là-bas.
+      </p>
+      <div className="flex flex-wrap gap-3">
+        <button
+          onClick={handleExport}
+          className="px-4 py-2 rounded-xl bg-indigo-500 text-white font-bold text-sm"
+        >
+          💾 Exporter la sauvegarde
+        </button>
+        <button
+          onClick={() => fileInputRef.current?.click()}
+          className="px-4 py-2 rounded-xl bg-gray-100 text-gray-700 font-bold text-sm"
+        >
+          📂 Importer une sauvegarde
+        </button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="application/json"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) handleImportFile(file);
+            e.target.value = "";
+          }}
+        />
+      </div>
+      {message && <p className="text-xs font-bold text-gray-500">{message}</p>}
+    </motion.div>
+  );
+}
 
 function AccuracyRing({ percent, color }: { percent: number; color: string }) {
   const r = 28;
@@ -107,6 +197,8 @@ export default function ParentPage() {
             <div className="text-xl font-black text-gray-800">💎 {gameState.gems}</div>
           </div>
         </motion.div>
+
+        <BackupSection gameState={gameState} />
 
         <motion.div
           initial={{ opacity: 0, y: 15 }}

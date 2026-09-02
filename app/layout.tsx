@@ -35,7 +35,11 @@ export default function RootLayout({
             backdropFilter: "blur(6px)",
           }}
         >
-          © {new Date().getFullYear()} Riadh MNASRI — Studyverse
+          © {new Date().getFullYear()}{" "}
+          <a href="https://riadh-mnasri.pro" style={{ color: "inherit" }}>
+            Riadh MNASRI
+          </a>{" "}
+          — Studyverse
         </footer>
       </body>
     </html>
